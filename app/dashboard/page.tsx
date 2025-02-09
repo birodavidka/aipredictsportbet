@@ -20,9 +20,9 @@ export default function DashboardPage() {
   }, [user, dispatch, router]);
 
   return (
-    <div className="w-full max-w-lg mx-auto">
+    <div className="w-full max-w-lg mx-auto flex flex-col gap-4 items-center">
       <h1 className="text-2xl font-bold mb-4 text-center">AI Ajánlások</h1>
-
+      <button className="w-32 rounded-lg font-semibold p-1 border">generate bets</button>
       {/* AI által generált ajánlások listája */}
       {predictions.length === 0 ? (
         <p className="text-gray-600 text-center">Még nincsenek AI ajánlások.</p>
