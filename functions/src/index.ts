@@ -1,13 +1,23 @@
-import { onSchedule } from "firebase-functions/v2/scheduler";
-import { exec } from "child_process";
+/**
+ * Import function triggers from their respective submodules:
+ *
+ * import {onCall} from "firebase-functions/v2/https";
+ * import {onDocumentWritten} from "firebase-functions/v2/firestore";
+ *
+ * See a full list of supported triggers at https://firebase.google.com/docs/functions
+ */
 
-// 🔥 AI Modell automatikus futtatása minden 24 órában
-export const runAIModel = onSchedule("every 24 hours", async () => {
-  exec("python functions/src/ai_model.py", (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Hiba az AI modell futtatása közben: ${error.message}`);
-      return;
-    }
-    console.log(`AI Modell kimenete: ${stdout}`);
-  });
+import {onRequest} from "firebase-functions/v2/https";
+import * as logger from "firebase-functions/logger";
+import { registerUser } from "./createUserRecord.js";
+
+
+// Start writing functions
+// https://firebase.google.com/docs/functions/typescript
+
+export const helloWorld = onRequest((request, response) => {
+  logger.info("Hello logs!", {structuredData: true});
+  response.send("Hello from Firebase!");
 });
+
+export {registerUser}

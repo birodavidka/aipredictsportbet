@@ -7,11 +7,11 @@ import { auth } from "@/firebaseConfig"; // 🔥 Importáljuk az `auth`-ot
 import { useDispatch } from "react-redux";
 import { login } from "@/redux/authSlice";
 import Link from "next/link";
+import axios from "axios";
 
 type Props = {}
 
 const Register = (props: Props) => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -23,12 +23,19 @@ const Register = (props: Props) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       dispatch(login(user.email || "Ismeretlen felhasználó"));
+      
+      // 🔥 Felhasználó mentése a Firestore-ba a Cloud Function API-n keresztül
+      await axios.post(`https://us-central1-sportingbetai-d8423.cloudfunctions.net/registerUser`, {
+        uid: user.uid,
+        email: user.email,
+        name: "Unknown"
+      });
+      
       router.push("/dashboard");
     } catch (err) {
       setError("Hiba történt a regisztráció során!");
     }
   };
-
 
   return (
     <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">

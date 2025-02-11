@@ -12,7 +12,7 @@ const Header = (props: Props) => {
   const user = useSelector((state: RootState) => state.auth.user);
   const dispatch = useDispatch();
   return (
-    <nav className="bg-white shadow-md p-4">
+    <nav className="bg-inherit shadow-md p-4 fixed w-full">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         <Link href="/" className="text-xl font-bold">
           Sportfogadás AI
