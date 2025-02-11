@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/firebaseConfig';
 
+
 type Props = {}
 
 const Login = (props: Props) => {
@@ -29,20 +30,20 @@ const Login = (props: Props) => {
     }
   };
   return (
-    <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-4 text-center">Bejelentkezés</h1>
+    <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md ">
+      <h1 className="text-2xl font-bold mb-4 text-center text-black">Bejelentkezés</h1>
       {error && <p className="text-red-500">{error}</p>}
       <input
         type="email"
         placeholder="E-mail cím"
-        className="w-full p-2 border rounded-md mb-2"
+        className="w-full p-2 border rounded-md mb-2 text-black"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
       <input
         type="password"
         placeholder="Jelszó"
-        className="w-full p-2 border rounded-md mb-4"
+        className="w-full p-2 border rounded-md mb-4 text-black"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />

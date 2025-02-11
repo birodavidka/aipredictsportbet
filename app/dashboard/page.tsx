@@ -4,6 +4,7 @@ import { RootState, AppDispatch } from "@/redux/store";
 import { useEffect } from "react";
 import { fetchAIPredictions } from "@/redux/aiSlice";
 import { useRouter } from "next/navigation";
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 
 export default function DashboardPage() {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -22,8 +23,11 @@ export default function DashboardPage() {
   return (
     <div className="w-full max-w-lg mx-auto flex flex-col gap-4 items-center">
       <h1 className="text-2xl font-bold mb-4 text-center">AI Ajánlások</h1>
-      <button className="w-32 rounded-lg font-semibold p-1 border">generate bets</button>
       {/* AI által generált ajánlások listája */}
+      <button className="w-36 rounded-lg font-semibold p-1 border">
+        <AutoAwesomeOutlinedIcon/>
+        generate bets
+      </button>
       {predictions.length === 0 ? (
         <p className="text-gray-600 text-center">Még nincsenek AI ajánlások.</p>
       ) : (
