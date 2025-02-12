@@ -20,21 +20,23 @@ const Header = (props: Props) => {
         <div className="space-x-4">
           {user ? (
             <>
-              <span className="text-gray-700">Üdv, {user}!</span>
+              <span className="text-white">Üdv, {user}!</span>
               <button
                 onClick={() => dispatch(logout())}
-                className="text-red-500 hover:underline"
+                className="text-white font-semibold bg-red-500 rounded-lg py-1 px-2 hover:bg-red-700"
               >
                 Kijelentkezés
               </button>
             </>
           ) : (
             <>
-              <Link href="/auth/login" className="text-gray-700 hover:text-blue-500">
+              <Link href="/auth/login" className="text-white hover:text-blue-500">
                 Bejelentkezés
               </Link>
-              <Link href="/auth/register" className="text-gray-700 hover:text-blue-500">
-                Regisztráció
+              <Link href="/auth/register" className="text-white hover:text-blue-500">
+                <button className='bg-blue-700 text-white rounded-md px-2 py-1 font-semibold hover:bg-blue-900'>
+                  sign up
+                </button>
               </Link>
             </>
           )}
