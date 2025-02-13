@@ -17,6 +17,7 @@ interface PricingTabProps {
 function PricingTab(props: PricingTabProps) {
   return (
     <div className={`h-full w-full max-w-sm ${props.popular ? "dark" : ""}`}>
+      
       <div className="relative flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow dark:border-slate-900 dark:bg-slate-900">
         {props.popular && (
           <div className="absolute right-0 top-0 -mt-4 mr-6">
@@ -75,6 +76,12 @@ const PricingCard = () => {
 
   return (
     <div className="w-full px-4">
+      <div className="text-center">
+        <h2 className="text-4xl font-bold mb-8">See Our Pricing plans!</h2>
+        <p className="text-gray-400 mb-12">
+          Experience next-level betting analytics with our AI-driven platform.
+        </p>
+      </div>
       {/* Pricing Toggle */}
       <div className="m-auto mb-8 flex max-w-[14rem] justify-center">
         <div className="relative flex w-full rounded-full bg-white p-1 dark:bg-slate-900">

@@ -6,7 +6,7 @@ import PricingCard from "./components/PricingCard";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-full">
+    <div className="relative flex flex-col items-center justify-start min-h-screen w-full">
       <HomePage/>
       <Benefits/>
       <PricingCard/>

@@ -17,6 +17,7 @@
     "axios": "^1.7.9",
     "firebase": "^11.3.0",
     "framer-motion": "^12.4.2",
+    "grommet-icons": "^4.12.4",
     "motion": "^12.4.2",
     "next": "15.1.6",
     "react": "^19.0.0",
