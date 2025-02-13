@@ -1,15 +1,17 @@
 import Benefits from "./components/Benefits";
+import ContactUs from "./components/ContactUs";
+import Footer from "./components/Footer";
 import HomePage from "./components/HomePage";
+import PricingCard from "./components/PricingCard";
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center h-screen w-full">
       <HomePage/>
       <Benefits/>
-{/*     <h1 className="text-4xl font-bold">Sportfogadás AI Elemző</h1>
-    <p className="text-lg text-gray-600 mt-4">
-      Használd az AI erejét a nyerő fogadásokhoz!
-    </p> */}
+      <PricingCard/>
+      <ContactUs/>
+      <Footer/>
   </div>
 
   );
