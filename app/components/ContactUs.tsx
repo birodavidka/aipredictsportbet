@@ -1,12 +1,26 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
 import { MailOption, Phone, Location } from "grommet-icons";
 import { FaInstagram, FaFacebook, FaTwitter, FaPaperPlane } from "react-icons/fa";
 
 const ContactUs = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
+
+  const onSubmit = async (data: any) => {
+    console.log("Form submitted:", data);
+    alert("Message sent successfully!");
+    reset();
+  };
+
   return (
-    <section className="flex items-center justify-center min-h-screen bg-black px-6">
+    <section className="flex items-center justify-center min-h-screen px-6">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -43,35 +57,67 @@ const ContactUs = () => {
         <div className="p-8 w-full md:w-2/3 bg-white rounded-r-lg">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Get in Touch</h2>
           <p className="text-gray-500 mb-6">Feel free to drop us a line below!</p>
-          <form className="space-y-4">
-            <motion.input
-              whileFocus={{ scale: 1.02 }}
-              type="text"
-              placeholder="Your name"
-              className="w-full px-4 py-3 bg-gray-100 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:outline-none"
-            />
-            <motion.input
-              whileFocus={{ scale: 1.02 }}
-              type="email"
-              placeholder="Your email"
-              className="w-full px-4 py-3 bg-gray-100 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:outline-none"
-            />
-            <motion.textarea
-              whileFocus={{ scale: 1.02 }}
-              rows={4}
-              placeholder="Your message"
-              className="w-full px-4 py-3 bg-gray-100 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:outline-none"
-            ></motion.textarea>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {/* Név mező */}
+            <motion.div whileFocus={{ scale: 1.02 }}>
+              <input
+                {...register("name", { required: "Your name is required" })}
+                type="text"
+                placeholder="Your name"
+                className={`w-full px-4 py-3 bg-gray-100 rounded-lg border ${
+                  errors.name ? "border-red-500" : "border-gray-300"
+                } focus:ring-2 focus:ring-pink-500 focus:outline-none`}
+              />
+              {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
+            </motion.div>
+
+            {/* E-mail mező */}
+            <motion.div whileFocus={{ scale: 1.02 }}>
+              <input
+                {...register("email", {
+                  required: "Your email is required",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Invalid email format",
+                  },
+                })}
+                type="email"
+                placeholder="Your email"
+                className={`w-full px-4 py-3 bg-gray-100 rounded-lg border ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                } focus:ring-2 focus:ring-pink-500 focus:outline-none`}
+              />
+              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+            </motion.div>
+
+            {/* Üzenet mező */}
+            <motion.div whileFocus={{ scale: 1.02 }}>
+              <textarea
+                {...register("message", {
+                  required: "Your message is required",
+                  minLength: { value: 10, message: "Message must be at least 10 characters" },
+                })}
+                rows={4}
+                placeholder="Your message"
+                className={`w-full px-4 py-3 bg-gray-100 rounded-lg border ${
+                  errors.message ? "border-red-500" : "border-gray-300"
+                } focus:ring-2 focus:ring-pink-500 focus:outline-none`}
+              ></textarea>
+              {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>}
+            </motion.div>
+
+            {/* Küldés gomb */}
             <motion.button
               whileHover={{
                 scale: 1.05,
                 boxShadow: "0px 0px 20px rgba(255, 105, 180, 0.5)",
               }}
               whileTap={{ scale: 0.95 }}
+              disabled={isSubmitting}
               className="w-full py-3 bg-[#8E3A9B] text-white font-bold rounded-lg shadow-md transition-all flex items-center justify-center space-x-2"
             >
               <FaPaperPlane />
-              <span>Send Message</span>
+              <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
             </motion.button>
           </form>
         </div>

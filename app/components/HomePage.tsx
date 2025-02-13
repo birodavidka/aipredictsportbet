@@ -9,9 +9,12 @@ const HomePage = () => {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="flex min-h-screen items-center justify-center px-6 text-center w-full"
+      className="relative flex min-h-screen items-center justify-center px-6 text-center w-full"
     >
-      <div className="max-w-2xl text-white">
+      {/* Gradient Háttér Effektek */}
+      <div className="absolute w-[700px] h-[500px] bg-gradient-to-r from-[#eb26fd] via-[#6a5acd] to-[#4fd1c5] rounded-[100%] z-[-1] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] blur-[100px]"></div>
+
+      <div className="max-w-2xl text-white relative">
         {/* Gradient Title */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -20,11 +23,11 @@ const HomePage = () => {
           className="text-4xl font-bold sm:text-5xl md:text-6xl"
         >
           Start your{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-[#917AFF]">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-[#4fd1c5]">
             dream site
           </span>{" "}
           with AI. <br />
-          <span className="text-[#917AFF]">Zero code</span>, maximum speed.
+          <span className="text-[#5A41EA]">Zero code</span>, maximum speed.
         </motion.h1>
 
         {/* AI Input Box */}
@@ -45,10 +48,10 @@ const HomePage = () => {
           <motion.button
             whileHover={{
               scale: 1.05,
-              boxShadow: "0px 0px 10px rgba(145, 122, 255, 0.5)",
+              boxShadow: "0px 0px 10px rgba(79, 209, 197, 0.5)",
             }}
             whileTap={{ scale: 0.95 }}
-            className="ml-3 rounded-full bg-[#5A41EA] px-6 py-2 text-white font-semibold shadow-md transition-all hover:bg-[#917AFF]"
+            className="ml-3 rounded-full bg-[#5A41EA] px-6 py-2 text-white font-semibold shadow-md transition-all hover:bg-[#4fd1c5]"
           >
             + Start with AI
           </motion.button>

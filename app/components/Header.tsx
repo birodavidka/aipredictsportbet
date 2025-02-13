@@ -1,24 +1,47 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { logout } from "@/redux/authSlice";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 
-type Props = {};
-
-const Header = (props: Props) => {
+const Header = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const dispatch = useDispatch();
+  const [prevScrollY, setPrevScrollY] = useState(0);
+  const [hidden, setHidden] = useState(false);
+  const controls = useAnimation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > prevScrollY && currentScrollY > 50) {
+        // Ha lefelé görgetünk és a pozíció > 50px → elhalványítás
+        setHidden(true);
+        controls.start({ opacity: 0, y: -50, transition: { duration: 0.6, ease: "easeOut" } });
+      } else {
+        // Ha felfelé görgetünk → visszahozás
+        setHidden(false);
+        controls.start({ opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } });
+      }
+
+      setPrevScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollY, controls]);
 
   return (
     <motion.nav
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="bg-inherit shadow-md p-4 fixed w-full z-50"
+      initial={{ opacity: 1, y: 0 }}
+      animate={controls}
+      className={`bg-transparent shadow-md p-4 fixed w-full z-50 transition-all duration-500 ${
+        hidden ? "pointer-events-none" : "pointer-events-auto"
+      }`}
     >
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         {/* Logo */}
