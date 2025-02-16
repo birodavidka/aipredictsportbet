@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
-import aiReducer from "./aiSlice"; // 🔥 AI ajánlások reducer
+import aiReducer from "./aiSlice";
+import themeReducer from "./themeSlice"; // 🔥 Új theme reducer hozzáadása
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     ai: aiReducer,
+    theme: themeReducer, // 🔥 Téma beállítások Redux-ban
   },
 });
 

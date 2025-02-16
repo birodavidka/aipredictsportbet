@@ -1,52 +1,39 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/redux/store";
+import { RootState, AppDispatch } from "@/redux/store";
 import { logout } from "@/redux/authSlice";
+import { toggleTheme } from "@/redux/themeSlice"; // 🔥 Redux téma kezelés
 import { motion, useAnimation } from "framer-motion";
+import { Logout, Sun, Moon } from "grommet-icons";
 
 const Header = () => {
   const user = useSelector((state: RootState) => state.auth.user);
-  const dispatch = useDispatch();
-  const [prevScrollY, setPrevScrollY] = useState(0);
-  const [hidden, setHidden] = useState(false);
+  const theme = useSelector((state: RootState) => state.theme.mode);
+  const dispatch = useDispatch<AppDispatch>();
   const controls = useAnimation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > prevScrollY && currentScrollY > 50) {
-        // Ha lefelé görgetünk és a pozíció > 50px → elhalványítás
-        setHidden(true);
-        controls.start({ opacity: 0, y: -50, transition: { duration: 0.6, ease: "easeOut" } });
-      } else {
-        // Ha felfelé görgetünk → visszahozás
-        setHidden(false);
-        controls.start({ opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } });
-      }
-
-      setPrevScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [prevScrollY, controls]);
+    // Alkalmazzuk a Redux store-ból származó témát
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
 
   return (
     <motion.nav
       initial={{ opacity: 1, y: 0 }}
       animate={controls}
-      className={`bg-transparent shadow-md p-4 fixed w-full z-50 transition-all duration-500 ${
-        hidden ? "pointer-events-none" : "pointer-events-auto"
-      }`}
+      className={`bg-background-light dark:bg-background-dark p-4 fixed w-full z-50 transition-all duration-500`}
     >
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         {/* Logo */}
         <motion.div whileHover={{ scale: 1.1 }}>
-          <Link href="/" className="text-xl font-bold">
+          <Link href="/" className="text-xl font-bold text-foreground-light dark:text-foreground-dark">
             Sportfogadás AI
           </Link>
         </motion.div>
@@ -55,27 +42,37 @@ const Header = () => {
         <div className="space-x-4 flex items-center">
           {user ? (
             <>
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="text-white"
-              >
+              <motion.span className="text-foreground-light dark:text-foreground-dark">
                 Üdv, {user}!
               </motion.span>
               <motion.button
-                whileHover={{ scale: 1.1, boxShadow: "0px 0px 10px rgba(255, 0, 0, 0.5)" }}
+                onClick={() => dispatch(toggleTheme())}
+                className="p-2 rounded-md transition-all"
+              >
+                {theme === "dark" ? <Sun color="white" /> : <Moon color="black" />}
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => dispatch(logout())}
-                className="text-white font-semibold bg-red-500 rounded-lg py-1 px-2 hover:bg-red-700"
+                className="text-white font-semibold bg-red-500 rounded-lg py-1 px-2 hover:bg-red-700 flex gap-2 items-center"
               >
-                Kijelentkezés
+                <p>Logout</p>
+                <Logout color="white" />
               </motion.button>
             </>
           ) : (
             <>
               <motion.div whileHover={{ scale: 1.1 }}>
-                <Link href="/auth/login" className="text-white font-semibold hover:text-blue-500 border bg-inherit p-2 border-white rounded-lg">
+                <motion.button
+                  onClick={() => dispatch(toggleTheme())}
+                  className="p-2 rounded-md transition-all"
+                >
+                  {theme === "dark" ? <Sun color="white" /> : <Moon color="black" />}
+                </motion.button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.1 }}>
+                <Link href="/auth/login" className="text-foreground-light dark:text-foreground-dark font-semibold hover:text-blue-500 border bg-inherit p-2 border-white rounded-lg">
                   Login
                 </Link>
               </motion.div>
@@ -83,9 +80,9 @@ const Header = () => {
                 <Link href="/auth/register" passHref legacyBehavior>
                   <a>
                     <motion.button
-                      whileHover={{ scale: 1.1, boxShadow: "0px 0px 10px rgba(0, 0, 255, 0.5)" }}
+                      whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      className="bg-blue-700 text-white rounded-md px-2 py-1 font-semibold hover:bg-blue-900"
+                      className="bg-primary-light dark:bg-primary-dark text-white rounded-md px-2 py-1 font-semibold hover:bg-blue-900"
                     >
                       Sign Up
                     </motion.button>

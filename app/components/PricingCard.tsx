@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 interface PricingTabProps {
   yearly: boolean;
@@ -15,10 +17,15 @@ interface PricingTabProps {
 }
 
 function PricingTab(props: PricingTabProps) {
+  const theme = useSelector((state: RootState) => state.theme.mode);
+
   return (
-    <div className={`h-full w-full max-w-sm ${props.popular ? "dark" : ""}`}>
-      
-      <div className="relative flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow dark:border-slate-900 dark:bg-slate-900">
+    <div className={`h-full w-full max-w-sm transition-all duration-300 `}>
+      <div
+        className={`relative flex h-full flex-col rounded-2xl border p-6 shadow-lg transition-all duration-300
+        ${theme === "dark" ? "border-gray-700 bg-gray-800 text-white" : "border-gray-200 bg-white text-black"}
+      `}
+      >
         {props.popular && (
           <div className="absolute right-0 top-0 -mt-4 mr-6">
             <div className="inline-flex items-center rounded-full bg-emerald-500 px-3 py-1.5 text-xs font-semibold text-white shadow">
@@ -27,32 +34,26 @@ function PricingTab(props: PricingTabProps) {
           </div>
         )}
         <div className="mb-5">
-          <div className="mb-1 font-semibold text-slate-900 dark:text-slate-200">
-            {props.planName}
-          </div>
+          <div className="mb-1 font-semibold">{props.planName}</div>
           <div className="mb-2 inline-flex items-baseline">
-            <span className="text-3xl font-bold text-slate-900 dark:text-slate-200">
-              $
-            </span>
-            <span className="text-4xl font-bold text-slate-900 dark:text-slate-200">
+            <span className="text-3xl font-bold">$</span>
+            <span className="text-4xl font-bold">
               {props.yearly ? props.price.yearly : props.price.monthly}
             </span>
-            <span className="font-medium text-slate-500">/mo</span>
+            <span className="font-medium text-gray-500">/mo</span>
           </div>
-          <div className="mb-5 text-sm text-slate-500">
-            {props.planDescription}
-          </div>
+          <div className="mb-5 text-sm text-gray-500">{props.planDescription}</div>
           <a
-            className="inline-flex w-full justify-center whitespace-nowrap rounded-lg bg-indigo-500 px-3.5 py-2.5 text-sm font-medium text-white shadow transition-colors hover:bg-indigo-600"
+            className={`inline-flex w-full justify-center whitespace-nowrap rounded-lg px-3.5 py-2.5 text-sm font-medium shadow transition-colors
+            ${theme === "dark" ? "bg-indigo-400 hover:bg-indigo-500 text-white" : "bg-indigo-500 hover:bg-indigo-600 text-white"}
+          `}
             href="#0"
           >
             Purchase Plan
           </a>
         </div>
-        <div className="mb-3 font-medium text-slate-900 dark:text-slate-200">
-          Includes:
-        </div>
-        <ul className="grow space-y-3 text-sm text-slate-600 dark:text-slate-400">
+        <div className="mb-3 font-medium">Includes:</div>
+        <ul className="grow space-y-3 text-sm text-gray-600 dark:text-gray-400">
           {props.features.map((feature, index) => (
             <li key={index} className="flex items-center">
               <svg
@@ -73,40 +74,45 @@ function PricingTab(props: PricingTabProps) {
 
 const PricingCard = () => {
   const [isAnnual, setIsAnnual] = useState<boolean>(true);
+  const theme = useSelector((state: RootState) => state.theme.mode);
 
   return (
-    <div className="w-full px-4">
+    <div className={`w-full px-4 transition-all duration-300`}>
       <div className="text-center">
-        <h2 className="text-4xl font-bold mb-8">See Our Pricing plans!</h2>
+        <h2 className="text-4xl font-bold mb-8">See Our Pricing Plans!</h2>
         <p className="text-gray-400 mb-12">
           Experience next-level betting analytics with our AI-driven platform.
         </p>
       </div>
       {/* Pricing Toggle */}
       <div className="m-auto mb-8 flex max-w-[14rem] justify-center">
-        <div className="relative flex w-full rounded-full bg-white p-1 dark:bg-slate-900">
+        <div
+          className={`relative flex w-full rounded-full p-1 transition-all duration-300
+          ${theme === "dark" ? "bg-gray-800" : "bg-white"}
+        `}
+        >
           <span
             className="pointer-events-none absolute inset-0 m-1"
             aria-hidden="true"
           >
             <span
-              className={`absolute inset-0 w-1/2 transform rounded-full bg-indigo-500 shadow transition-transform ${
-                isAnnual ? "translate-x-0" : "translate-x-full"
-              }`}
+              className={`absolute inset-0 w-1/2 transform rounded-full shadow transition-transform
+              ${isAnnual ? "bg-indigo-500" : "translate-x-full bg-indigo-500"}
+            `}
             ></span>
           </span>
           <button
-            className={`relative h-8 flex-1 rounded-full text-sm font-medium transition-colors ${
-              isAnnual ? "text-white" : "text-slate-500"
-            }`}
+            className={`relative h-8 flex-1 rounded-full text-sm font-medium transition-colors
+            ${isAnnual ? "text-white" : "text-gray-500"}
+          `}
             onClick={() => setIsAnnual(true)}
           >
             Yearly <span className="text-indigo-200">-20%</span>
           </button>
           <button
-            className={`relative h-8 flex-1 rounded-full text-sm font-medium transition-colors ${
-              isAnnual ? "text-slate-500" : "text-white"
-            }`}
+            className={`relative h-8 flex-1 rounded-full text-sm font-medium transition-colors
+            ${isAnnual ? "text-gray-500" : "text-white"}
+          `}
             onClick={() => setIsAnnual(false)}
           >
             Monthly
