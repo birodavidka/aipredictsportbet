@@ -8,6 +8,7 @@ import { login } from "@/redux/authSlice";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/firebaseConfig';
+import { useSelector } from "react-redux";
 
 
 type Props = {}
@@ -18,6 +19,7 @@ const Login = (props: Props) => {
   const [error,setError] = useState('')
   const dispatch = useDispatch();
   const router = useRouter();
+  const theme = useSelector((state: RootState) => state.theme.mode); // 🔥 Redux-ból lekérjük a témát
 
   const handleLogin = async () => {
     try {
